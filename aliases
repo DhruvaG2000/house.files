@@ -1,0 +1,58 @@
+#>> myALIASES <<
+# Changing "ls" to "exa"
+alias ls='exa -al --color=always --group-directories-first' # my preferred listing
+alias la='exa -a --color=always --group-directories-first'  # all files and dirs
+alias ll='exa -l --color=always --group-directories-first'  # long format
+alias lt='exa -aT --color=always --group-directories-first' # tree listing
+alias l.='exa -a | egrep "^\."'
+
+alias ..='cd ..'
+alias ....='cd ../..'
+
+alias cat='bat'
+alias ripgrep='rg'
+alias find='fd'
+alias htop='btop --utf-force'
+alias xcopy='xclip -selection c '
+
+alias bashconfig='vim ~/.bashrc'
+alias vim='nvim'
+alias sourcebash='source ~/.bashrc' #'source ~/.bash_profile' #'source ~/.bashrc'
+
+alias configKernelARM='export ARCH=arm64 && export CROSS_COMPILE=aarch64-none-linux-gnu-'
+alias configKernelARM32='export ARCH=arm && export CROSS_COMPILE=arm-none-eabi-'
+
+## >> git aliases <<
+alias gl='git log --pretty --color=always'
+alias glo='git log --oneline --color=always'
+alias glog='git log --graph --oneline --color=always'
+alias gls='git log --stat --color=always'
+alias gs='git status'
+alias gcvs='git commit -vs'
+alias gca='git commit -vs --amend'
+alias 'git send-email'='git send-email --confirm=always'
+alias gfp-head='git format-patch -1 HEAD'
+alias gf='git fetch'
+alias gd='git diff'
+alias gp='git pull'
+alias less='less -R'
+
+## >> Linux aliases <<
+alias mkclean='make -j8 ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu- clean'
+alias mkdtb='make -j8 ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu- dtbs'
+alias mkocfg='make ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu- tisdk_am62xx-evm_defconfig'
+alias mkimg='make -j8 ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu- Image'
+alias mkcfg='make -j8 ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu- menuconfig'
+alias mkmod='make -j8 ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu- modules'
+alias mkmodi='sudo make ARCH=arm64 INSTALL_MOD_PATH=/media/dhruva/root modules_install'
+
+
+# Vgrep
+vg() {
+  INITIAL_QUERY="$1"
+  VGREP_PREFIX="vgrep --no-header "
+  FZF_DEFAULT_COMMAND="$VGREP_PREFIX '$INITIAL_QUERY'" \
+  fzf --bind "change:reload:$VGREP_PREFIX {q} || true" --ansi --phony --tac --query "$INITIAL_QUERY" \
+  | awk '{print $1}' | xargs -I{} -o vgrep --show {}
+}
+
